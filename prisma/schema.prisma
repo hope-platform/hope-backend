@@ -1,0 +1,84 @@
+// Hope Platform — Prisma Schema
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ═══════════════════════════════════════
+// USERS
+// ═══════════════════════════════════════
+model User {
+  id                  String    @id @default(uuid())
+  email               String    @unique
+  name                String
+  language_preference String    @default("en")
+  created_at          DateTime  @default(now())
+
+  booking_requests    BookingRequest[]
+}
+
+// ═══════════════════════════════════════
+// SPECIALISTS
+// ═══════════════════════════════════════
+model Specialist {
+  id                String    @id @default(uuid())
+  name              String
+  specialty         String
+  location          String
+  languages         String[]
+  price_range       String
+  contact_whatsapp  String?
+  contact_email     String?
+  verified          Boolean   @default(false)
+  created_at        DateTime  @default(now())
+
+  booking_requests  BookingRequest[]
+}
+
+// ═══════════════════════════════════════
+// RESOURCES
+// ═══════════════════════════════════════
+model Resource {
+  id          String    @id @default(uuid())
+  title       String
+  category    String
+  language    String
+  file_url    String
+  description String
+  created_at  DateTime  @default(now())
+}
+
+// ═══════════════════════════════════════
+// HELP STRATEGIES
+// ═══════════════════════════════════════
+model HelpStrategy {
+  id               String    @id @default(uuid())
+  situation_type   String
+  steps            Json
+  source_citation  String
+  language         String
+  created_at       DateTime  @default(now())
+}
+
+// ═══════════════════════════════════════
+// BOOKING REQUESTS
+// ═══════════════════════════════════════
+model BookingRequest {
+  id               String     @id @default(uuid())
+  user_id          String
+  specialist_id    String
+  message          String
+  contact_method   String
+  status           String     @default("pending")
+  created_at       DateTime   @default(now())
+
+  user             User       @relation(fields: [user_id], references: [id])
+  specialist       Specialist @relation(fields: [specialist_id], references: [id])
+}
