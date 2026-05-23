@@ -3,6 +3,10 @@ import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import prisma from "./prisma";
+import userRoutes from "./routes/userRoutes";
+import helpStrategyRoutes from "./routes/helpStrategyRoutes";
+import specialistRoutes from "./routes/specialistRoutes";
+import bookingRoutes from "./routes/bookingRoutes";
 
 // Load environment variables from .env file
 dotenv.config({ quiet: true });
@@ -19,6 +23,10 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet()); // Adds security headers to every response
 app.use(cors()); // Allows frontend to talk to backend
 app.use(express.json()); // Allows backend to read JSON from request body
+app.use("/users", userRoutes);
+app.use("/help-strategies", helpStrategyRoutes);
+app.use("/specialists", specialistRoutes);
+app.use("/bookings", bookingRoutes);
 
 /**
  * Health check route
