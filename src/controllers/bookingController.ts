@@ -16,7 +16,18 @@ export const handleCreateBooking = async (req: Request, res: Response) => {
   try {
     const booking = await createBooking(user_id, specialist_id, contact_method);
     return res.status(201).json({ booking });
-  } catch (error) {
+  } catch (error: any) {
+    console.error(error);
+
+    if (error.code === "P2003") {
+      return res.status(404).json({
+        error: {
+          code: "NOT_FOUND",
+          message: "Specialist not found",
+        },
+      });
+    }
+
     return res.status(500).json({
       error: {
         code: "SERVER_ERROR",
