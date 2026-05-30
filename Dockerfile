@@ -10,7 +10,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm exec prisma generate
+RUN DIRECT_URL="postgresql://placeholder" DATABASE_URL="postgresql://placeholder" pnpm exec prisma generate
 
 RUN pnpm build
 
