@@ -7,7 +7,7 @@ import { loggerMiddleware } from "./middleware/loggerMiddleware";
 import { authMiddleware } from "./middleware/authMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
 import userRoutes from "./routes/userRoutes";
-import helpStrategyRoutes from "./routes/helpStrategyRoutes";
+import situationRoutes from "./routes/situationRoutes";
 import specialistRoutes from "./routes/specialistRoutes";
 import bookingRoutes from "./routes/bookingRoutes";
 
@@ -39,7 +39,7 @@ app.get("/health", async (req, res) => {
 });
 
 app.use("/users", userRoutes);
-app.use("/help-strategies", helpStrategyRoutes);
+app.use("/situations", situationRoutes);
 app.use("/specialists", specialistRoutes);
 app.use("/bookings", authMiddleware, bookingRoutes);
 
